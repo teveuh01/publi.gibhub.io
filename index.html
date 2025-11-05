@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vicente Toledo Metalúrgica en General</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .carousel-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta imagen sin distorsión */
+            display: block; /* Evita espacios extra debajo */
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+        .arrow-left {
+            left: 10px;
+        }
+        .arrow-right {
+            right: 10px;
+        }
+        .arrow:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        .arrow:active {
+            transform: translateY(-50%) scale(0.95); /* Efecto clic */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        /* Mejora responsive para móviles */
+        @media (max-width: 600px) {
+            .carousel-container {
+                width: 95%;
+                height: 300px;
+            }
+            h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Vicente Toledo Metalúrgica en General</h1>
+        <div class="carousel-container">
+            <button class="arrow arrow-left" onclick="moveSlide(-1)">←</button>
+            <div class="carousel" id="carousel">
+                <!-- Slides principales: Tus fotos en .PNG -->
+                <div class="slide"><img src="images/imagen1.png" alt="Proyecto 1: Escalera interior"></div>
+                <div class="slide"><img src="images/imagen2.png" alt="Proyecto 2: Reja de ventana"></div>
+                <div class="slide"><img src="images/imagen3.png" alt="Proyecto 3: Estructura con ruedas"></div>
+                <div class="slide"><img src="images/imagen4.png" alt="Proyecto 4: Escalera exterior"></div>
+                <div class="slide"><img src="images/imagen5.png" alt="Proyecto 5: Caja metálica"></div>
+                <!-- Clones para carrusel infinito (no visibles, solo para loop) -->
+                <div class="slide"><img src="images/imagen1.png" alt="Proyecto 1: Escalera interior"></div>
+                <div class="slide"><img src="images/imagen5.png" alt="Proyecto 5: Caja metálica"></div>
+            </div>
+            <button class="arrow arrow-right" onclick="moveSlide(1)">→</button>
+        </div>
+        <footer>
+            <p>Explora nuestros proyectos de metalurgia. Desliza con las flechas para ver más.</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentIndex = 1; // Empieza en el primer slide real (índice 1)
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length - 2; // Resta los 2 clones
+        const carousel = document.getElementById('carousel');
+
+        function moveSlide(direction) {
+            currentIndex += direction;
+            
+            // Lógica para loop infinito
+            if (currentIndex > totalSlides) {
+                currentIndex = 1;
+                carousel.style.transition = 'none'; // Salto instantáneo al reset
+            } else if (currentIndex < 1) {
+                currentIndex = totalSlides;
+                carousel.style.transition = 'none';
+            } else {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+            }
+            
+            // Restaura la transición después del salto
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+            }, 50);
+            
+            // Mueve el carrusel
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        // Opcional: Auto-avance cada 4 segundos (descomenta si quieres)
+        // setInterval(() => moveSlide(1), 4000);
+    </script>
+</body>
+</html>
